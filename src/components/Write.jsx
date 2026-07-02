@@ -1,10 +1,27 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
+import axios from 'axios';
 
 export default function Write() {
   const onSubmit = (e) => {
     e.preventDefault();
+
+    axios
+      .post('http://localhost:3000/write', {
+        name: e.target.name.value,
+        title: e.target.title.value,
+        content: e.target.content.value,
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        console.log('Request completed');
+      });
   };
 
   return (
@@ -22,13 +39,13 @@ export default function Write() {
           <Form.Label>내용</Form.Label>
           <Form.Control as='textarea' name='content' rows={3} />
         </Form.Group>
+        <div className='d-flex gap-1 justify-content-end'>
+          <Button type='submit' variant='primary'>
+            입력
+          </Button>
+          <Button variant='secondary'>취소</Button>
+        </div>
       </Form>
-      <div className='d-flex gap-1 justify-content-end'>
-        <Button type='submit' variant='primary'>
-          입력
-        </Button>
-        <Button variant='secondary'>취소</Button>
-      </div>
     </>
   );
 }
