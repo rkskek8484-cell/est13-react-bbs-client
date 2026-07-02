@@ -1,10 +1,15 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { useState } from 'react';
 
 export default function Write() {
+  const onSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <>
-      <Form>
+      <Form onSubmit={onSubmit}>
         <Form.Group className='mb-3' controlId='name'>
           <Form.Label>글쓴이</Form.Label>
           <Form.Control type='text' name='name' placeholder='이름을 입력해주세요' />
@@ -19,7 +24,9 @@ export default function Write() {
         </Form.Group>
       </Form>
       <div className='d-flex gap-1 justify-content-end'>
-        <Button variant='primary'>입력</Button>
+        <Button type='submit' variant='primary'>
+          입력
+        </Button>
         <Button variant='secondary'>취소</Button>
       </div>
     </>
