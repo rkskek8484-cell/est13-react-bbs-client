@@ -2,22 +2,25 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 export default function BoardList() {
-  const simpleTest = () => {
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
     axios
-      .get('http://localhost:3000/', {})
+      .get('http://localhost:3000/list', {})
       .then((response) => {
-        console.log(response);
         console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
       })
       .finally(() => {
-        console.log('Request completed');
+        console.log('요청완료');
       });
-  };
+  }, []);
+
   return (
     <>
       <Table striped bordered hover>
@@ -52,9 +55,7 @@ export default function BoardList() {
         </tbody>
       </Table>
       <div className='d-flex gap-1 justify-content-end'>
-        <Button variant='primary' onClick={simpleTest}>
-          입력
-        </Button>
+        <Button variant='primary'>입력</Button>
         <Button variant='secondary'>수정</Button>
         <Button variant='danger'>삭제</Button>
       </div>
