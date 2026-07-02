@@ -6,7 +6,7 @@ import axios from 'axios';
 export default function BoardList() {
   const simpleTest = () => {
     axios
-      .post('http://localhost:3000/', {})
+      .get('http://localhost:3000/', {})
       .then((response) => {
         console.log(response);
         console.log(response.data);
