@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 
-export default function Write() {
+export default function Write({ isModifyMode, boardId }) {
   let navigate = useNavigate();
 
   const onSubmit = (e) => {
