@@ -10,6 +10,8 @@ export default function View() {
     content: '',
     date: '',
   });
+  const [isError, setIsError] = useState(false);
+
   const { id } = useParams();
   useEffect(() => {
     axios
@@ -17,6 +19,11 @@ export default function View() {
       .then((response) => {
         console.log(response.data);
         // setContent(response.data)
+        if (!response.data || response.data.length === 0) {
+          setIsError(true);
+          return;
+        }
+
         const data = response.data[0];
 
         setContent({
@@ -33,6 +40,18 @@ export default function View() {
         console.log('요청완료');
       });
   }, []);
+  if (isError) {
+    return (
+      <div>
+        <p>잘못된 접근입니다. </p>
+        <p>다시 확인해주세요. </p>
+
+        <Link to='/' className='btn btn-primary'>
+          홈으로 이동
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -45,8 +64,8 @@ export default function View() {
       {content.content}
       <hr />
       <div className='d-flex gap-1 justify-content-end'>
-        <Link to='/write' className='btn btn-primary'>
-          입력
+        <Link to='/' className='btn btn-primary'>
+          홈
         </Link>
         <Button variant='secondary'>수정</Button>
         <Button variant='danger'>삭제</Button>
