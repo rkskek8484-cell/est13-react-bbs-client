@@ -62,7 +62,7 @@ export default function Write({ isModifyMode, boardId, handleCancel }) {
   const write = (e) => {
     e.preventDefault();
     const formData = validate(e);
-    if (formData) return;
+    if (!formData) return;
     axios
       .post('http://localhost:3000/write', formData)
       .then((response) => {
@@ -77,7 +77,7 @@ export default function Write({ isModifyMode, boardId, handleCancel }) {
   const update = (e) => {
     e.preventDefault();
     const formData = validate(e);
-    if (formData) return;
+    if (!formData) return;
 
     axios
       .post('http://localhost:3000/update', {
