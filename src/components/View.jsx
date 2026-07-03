@@ -5,22 +5,44 @@ import { Link, useParams } from 'react-router';
 
 export default function View() {
   const [content, setContent] = useState({
-    name: '',
+    writer: '',
     title: '',
     content: '',
+    date: '',
   });
   const { id } = useParams();
-  useEffect(() => {}, []);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/view?id=${id}`)
+      .then((response) => {
+        console.log(response.data);
+        // setContent(response.data)
+        const data = response.data[0];
+
+        setContent({
+          writer: data.writer,
+          title: data.title,
+          content: data.content,
+          date: data.date,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        console.log('요청완료');
+      });
+  }, []);
 
   return (
     <>
-      <h2>글제목</h2>
+      <h2>{content.title}</h2>
       <div className='d-flex justify-content-between'>
-        <p>글쓴이</p>
-        <p>날짜</p>
+        <p>글쓴이: {content.writer}</p>
+        <p>{content.date}</p>
       </div>
       <hr />
-      본문
+      {content.content}
       <hr />
       <div className='d-flex gap-1 justify-content-end'>
         <Link to='/write' className='btn btn-primary'>
