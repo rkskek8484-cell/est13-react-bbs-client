@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router';
 import axios from 'axios';
 
-export default function Write({ isModifyMode, boardId }) {
+export default function Write({ isModifyMode, boardId, handleCancel }) {
   let navigate = useNavigate();
   const [content, setContent] = useState({
     name: '',
@@ -63,14 +63,15 @@ export default function Write({ isModifyMode, boardId }) {
 
   const update = (e) => {
     e.preventDefault();
-
     axios
       .post('http://localhost:3000/update', {
         name: e.target.name.value,
         title: e.target.title.value,
         content: e.target.content.value,
+        id: boardId,
       })
-      .then((response) => {
+      .then(() => {
+        handleCancel();
         navigate('/');
       })
       .catch((error) => {
