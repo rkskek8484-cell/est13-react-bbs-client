@@ -35,6 +35,7 @@ export default function View({ handleModify }) {
       })
       .catch((error) => {
         console.error(error);
+        setIsError(true);
       })
       .finally(() => {
         console.log('요청완료');

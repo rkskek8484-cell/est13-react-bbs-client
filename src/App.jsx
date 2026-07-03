@@ -12,7 +12,7 @@ function App() {
   const navigate = useNavigate();
 
   const handleModify = (_id) => {
-    setBoard(_id);
+    setBoardId(_id);
     setIsModifyMode(true);
     navigate('/write');
   };
