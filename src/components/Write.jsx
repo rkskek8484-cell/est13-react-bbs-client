@@ -43,15 +43,28 @@ export default function Write({ isModifyMode, boardId, handleCancel }) {
     }
   }, []);
 
+  const validate = (e) => {
+    const name = e.target.name.value.trim();
+    const title = e.target.title.value.trim();
+    const content = e.target.content.value.trim();
+
+    if (!name || !title || !content) {
+      alert('모든 내용을 작성해주세요');
+      return null;
+    }
+    return {
+      name,
+      title,
+      content,
+    };
+  };
+
   const write = (e) => {
     e.preventDefault();
-
+    const formData = validate(e);
+    if (formData) return;
     axios
-      .post('http://localhost:3000/write', {
-        name: e.target.name.value,
-        title: e.target.title.value,
-        content: e.target.content.value,
-      })
+      .post('http://localhost:3000/write', formData)
       .then((response) => {
         navigate('/');
       })
@@ -63,11 +76,12 @@ export default function Write({ isModifyMode, boardId, handleCancel }) {
 
   const update = (e) => {
     e.preventDefault();
+    const formData = validate(e);
+    if (formData) return;
+
     axios
       .post('http://localhost:3000/update', {
-        name: e.target.name.value,
-        title: e.target.title.value,
-        content: e.target.content.value,
+        ...formData,
         id: boardId,
       })
       .then(() => {
@@ -91,15 +105,27 @@ export default function Write({ isModifyMode, boardId, handleCancel }) {
       <Form onSubmit={isModifyMode ? update : write}>
         <Form.Group className='mb-3' controlId='name'>
           <Form.Label>글쓴이</Form.Label>
-          <Form.Control type='text' name='name' defaultValue={content.name} placeholder='이름을 입력해주세요' />
+          <Form.Control
+            type='text'
+            name='name'
+            defaultValue={content.name}
+            placeholder='이름을 입력해주세요'
+            required
+          />
         </Form.Group>
         <Form.Group className='mb-3' controlId='title'>
           <Form.Label>제목</Form.Label>
-          <Form.Control type='text' name='title' defaultValue={content.title} placeholder='제목을 입력해주세요' />
+          <Form.Control
+            type='text'
+            name='title'
+            defaultValue={content.title}
+            placeholder='제목을 입력해주세요'
+            required
+          />
         </Form.Group>
         <Form.Group className='mb-3' controlId='content'>
           <Form.Label>내용</Form.Label>
-          <Form.Control as='textarea' name='content' defaultValue={content.content} rows={3} />
+          <Form.Control as='textarea' name='content' defaultValue={content.content} rows={3} required />
         </Form.Group>
         <div className='d-flex gap-1 justify-content-end'>
           <Button type='submit' variant='primary'>
